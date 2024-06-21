@@ -1,0 +1,17 @@
+from ultralytics import YOLO
+
+# Load a model
+# model = YOLO("yolov8n-cls.yaml")  # build a new model from YAML
+model = YOLO("yolov8n-cls.pt")
+result=model('bus.jpeg')
+print(result)
+print(result[0].probs)
+names=result[0].names
+print(names)
+top5=result[0].probs.top5
+for i in top5:
+    print(names[i])
+top5conf=result[0].probs.top5conf
+print(top5conf)
+data=result[0].probs.data
+print(data.sum())
