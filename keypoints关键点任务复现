@@ -1,0 +1,16 @@
+from ultralytics import YOLO
+import cv2
+model = YOLO("yolov8n-pose.pt")  # load a pretrained model (recommended for training)
+result=model('bus.jpeg')
+print(result)
+print(result[0].keypoints.xy)
+img=cv2.imread('bus.jpeg')
+for xyxy_ in result[0].boxes.xyxy:
+    x1,y1,x2,y2 = xyxy_
+    cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 2)
+    for i in result[0].keypoints.xy:
+        for j in i[:]:
+            cv2.circle(img, (int(j[0]), int(j[1])), 5, (0, 0, 255), -1)
+cv2.imshow('img',img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
